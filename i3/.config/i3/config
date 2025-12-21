@@ -1,6 +1,16 @@
 # i3 config file (v4)
-# Dell Precision Tower 5810 - 4 Monitor Setup
-# Monitors: DP-0 (left portrait), DP-5 (top), DP-6 (bottom primary), DP-2 (right portrait)
+# Multi-environment configuration (Tower-5810, Laptop, WSL)
+# Environment is auto-detected based on hostname
+
+# ============================================================================
+# ENVIRONMENT DETECTION AND CONFIGURATION
+# ============================================================================
+# Detect environment and create symlink to appropriate config
+# This runs once at i3 startup to set up the environment-specific config
+exec_always --no-startup-id bash -c 'ENV=$(~/.config/i3/detect-env.sh 2>/dev/null || echo "laptop"); ln -sf ~/.config/i3/env-configs/$ENV.conf ~/.config/i3/env-configs/active.conf'
+
+# Include environment-specific configuration
+include ~/.config/i3/env-configs/active.conf
 
 # ============================================================================
 # APPEARANCE
@@ -48,54 +58,8 @@ client.focused          #d9d9d9 #cecece #000000 #d9d9d9 #d9d9d9
 # ============================================================================
 # MONITOR CONFIGURATION
 # ============================================================================
-
-# Monitor setup - configure 4-monitor layout
-exec_always --no-startup-id ~/.screenlayout/monitors-setup.sh
-
-# Define monitor variables
-set $mon_left DP-0      # Left Dell portrait
-set $mon_right DP-2     # Right Dell portrait  
-set $mon_top DP-5       # Top Lenovo (for terminals)
-set $mon_bottom DP-6    # Bottom Dell (primary)
-
-# Workspace assignments
-# Bottom monitor (primary) - main workspaces
-workspace 1 output $mon_bottom
-workspace 2 output $mon_bottom
-workspace 3 output $mon_bottom
-workspace 4 output $mon_bottom
-
-# Right monitor (portrait)
-workspace 5 output $mon_right
-workspace 6 output $mon_right
-
-# Top monitor (Lenovo) - terminal workspaces
-workspace 7 output $mon_top
-workspace 8 output $mon_top
-workspace 9 output $mon_top
-
-# Left monitor (portrait)
-workspace 10 output $mon_left
-
-# ============================================================================
-# CURSOR FIX - Critical for multi-monitor setup
-# ============================================================================
-
-# Force DPI to 96 to fix cursor size on primary monitor
-exec_always --no-startup-id xrandr --dpi 96
-
-# Load cursor configuration
-exec_always --no-startup-id xrdb -merge ~/.Xresources
-
-# Apply cursor theme
-exec_always --no-startup-id xsetroot -cursor_name left_ptr
-
-# ============================================================================
-# POLYBAR - Status bar for all monitors
-# ============================================================================
-
-# Launch polybar with 5-second delay for monitor initialization
-exec_always --no-startup-id killall -q polybar; sleep 5 && ~/.config/polybar/launch_polybar.sh
+# Monitor configuration is handled in environment-specific configs
+# See env-configs/tower.conf, laptop.conf, or wsl.conf
 
 # ============================================================================
 # STARTUP APPLICATIONS
@@ -113,7 +77,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # Network manager applet
 exec --no-startup-id nm-applet
 
-exec_always --no-startup-id feh --bg-scale ~/backgrounds/nature-1765988078999-1378.jpg 
+# Background image is set in environment-specific configs 
 
 # ============================================================================
 # KEY BINDINGS - Applications
