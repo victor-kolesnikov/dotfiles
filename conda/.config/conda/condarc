@@ -1,0 +1,8 @@
+# Conda configuration
+channels:
+  - conda-forge
+  - defaults
+
+channel_priority: strict
+auto_activate_base: false  # Don't auto-activate base environment
+show_channel_urls: true
