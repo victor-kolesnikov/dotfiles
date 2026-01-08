@@ -25,7 +25,7 @@ case "$ENV" in
           --output DP-0 --mode 2560x1440 --pos 0x0 --rotate right \
           --output DP-5 --mode 1280x1024 --pos 1440x0 --rotate normal \
           --output DP-6 --mode 2560x1440 --pos 1440x1024 --rotate normal --primary \
-          --output DP-2 --mode 2560x1440 --pos 4000x0 --rotate left
+          --output DP-2 --mode 2560x1440 --pos 4000x0 --rotate normal
         ;;
     
     laptop)
